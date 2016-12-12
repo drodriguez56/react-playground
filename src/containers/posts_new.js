@@ -9,7 +9,15 @@ class PostsNew extends Component {
   };
 
   onSubmit = (props) => {
-    this.props.createPost(props);
+    this.props.createPost(props)
+      .then((value)=> {
+        //blog post has been created, navigate user to index.
+        // we navigate by calling this.context.router.push with the new path to navigate to.
+        this.context.router.push('/');
+      }, (reason)=>{
+        //error
+        console.log(reason)
+      });
   }
 
   render(){
@@ -17,7 +25,7 @@ class PostsNew extends Component {
 
     return(
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(this.onSubmit)}>
             <h3>Create a new post</h3>
             <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
               <label>Title</label>
